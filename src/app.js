@@ -1,5 +1,13 @@
 //1.引入express
-const express = require("express");
+/*
+* es5
+* const express = require("express");
+* */
+
+/*
+* es6
+* */
+import express from "express";
 
 //2.创建服务器app
 const app = express();
