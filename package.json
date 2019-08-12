@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/yingleiming/edu#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nunjucks": "^3.2.0"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
