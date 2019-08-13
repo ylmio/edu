@@ -2341,7 +2341,7 @@ h1,h2,h3,h4,h5,h6{font-weight:normal}
     width: 100%;
     height: auto;
     float: left;
-    background: url('../Images/bg2.jpg') 0 100% no-repeat;
+    background: url('../images/bg2.jpg') 0 100% no-repeat;
     margin-bottom: 30px;
 }
 .content .mainbox .resource_cons .resource_cons_left .resource_cons_left_top .resource_cons_left_top_title{
@@ -2452,19 +2452,19 @@ h1,h2,h3,h4,h5,h6{font-weight:normal}
     margin: 8px 8px;
 }
 .content .mainbox .resource_cons .resource_cons_left .resource_cons_left_left .icon-icon-{
-    background: url('../Images/share_wx_ico.png') no-repeat top;
+    background: url('../images/share_wx_ico.png') no-repeat top;
     background-size: 100%;
 }
 .content .mainbox .resource_cons .resource_cons_left .resource_cons_left_left .icon-qq1{
-    background: url('../Images/share_qq_ico.png') no-repeat top;
+    background: url('../images/share_qq_ico.png') no-repeat top;
     background-size: 100%;
 }
 .content .mainbox .resource_cons .resource_cons_left .resource_cons_left_left .icon-qqkongjian{
-    background: url('../Images/share_kj_ico.png') no-repeat top;
+    background: url('../images/share_kj_ico.png') no-repeat top;
     background-size: 100%;
 }
 .content .mainbox .resource_cons .resource_cons_left .resource_cons_left_left .icon-weibo1{
-    background: url('../Images/share_wb_ico.png') no-repeat top;
+    background: url('../images/share_wb_ico.png') no-repeat top;
     background-size: 100%;
 }
 .content .mainbox .resource_cons .resource_cons_left .resource_cons_left_left .share>a.wxWrap:hover{
@@ -2504,7 +2504,7 @@ h1,h2,h3,h4,h5,h6{font-weight:normal}
     position: relative;
 }
 .content .mainbox .resource_cons .resource_cons_left .resource_cons_left_left .comment-count {
-    background: url('../Images/comment-count.png') no-repeat top;
+    background: url('../images/comment-count.png') no-repeat top;
     width: 80px;
     height: 80px;
     position: relative;
@@ -3117,7 +3117,7 @@ width: 560px;
     display: block;
     width: 36px;
     height: 36px;
-    background: url(../Images/dh_ico.png) no-repeat;
+    background: url(../images/dh_ico.png) no-repeat;
 }
 #trans_anniu .sc{
     width: 140px;
@@ -3140,7 +3140,7 @@ width: 560px;
     display: block;
     width: 36px;
     height: 36px;
-    background: url(../Images/sc_ico.png) no-repeat;
+    background: url(../images/sc_ico.png) no-repeat;
 }
 #trans_anniu .kf{
     width: 170px;
@@ -3162,7 +3162,7 @@ width: 560px;
     display: block;
     width: 36px;
     height: 36px;
-    background: url(../Images/kf_ico.png) no-repeat;
+    background: url(../images/kf_ico.png) no-repeat;
 }
 #trans_anniu .jrhy{
     width: 190px;
@@ -3183,7 +3183,7 @@ width: 560px;
     display: block;
     width: 36px;
     height: 36px;
-    background: url(../Images/jrhy_ico.png) no-repeat;
+    background: url(../images/jrhy_ico.png) no-repeat;
 }
 
 
