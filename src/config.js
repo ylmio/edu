@@ -1,6 +1,9 @@
-import {join} from "path";
-
+//引入path中的join方法
+import {join} from "path"
+//输出全路径
 export default {
+    // views全路径
     viewsPath:join(__dirname,"../views"),
+    //public全路径
     publicPath:join(__dirname,"../public"),
 }

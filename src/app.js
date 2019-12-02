@@ -7,8 +7,8 @@
 /*
 * es6
 * */
-import express from "express";
-import config from "./config";
+import express from "express"
+import config from "./config"
 import nunjucks from "nunjucks"
 
 //3.引入路由
@@ -32,6 +32,7 @@ app.use(indexRoute);
 
 //匹配路径
 app.get("/",(req,res)=>{
+    console.log(config.publicPath);
     res.end("<h1>hello,world<h1/>");
 });
 
