@@ -30,6 +30,11 @@ nunjucks.configure(config.viewsPath, {
 //3. 挂载路由
 app.use(indexRoute);
 
+//匹配路径
+app.get("/",(req,res)=>{
+    res.end("<h1>hello,world<h1/>");
+});
+
 //4.监听
 app.listen(3000,()=>{
    console.log("服务器已启动!")
