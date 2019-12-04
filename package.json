@@ -21,6 +21,7 @@
   "homepage": "https://github.com/yingleiming/edu#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.7.13",
     "nunjucks": "^3.2.0"
   },
   "devDependencies": {
