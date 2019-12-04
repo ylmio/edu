@@ -10,6 +10,7 @@
 import express from "express"
 import config from "./config"
 import nunjucks from "nunjucks"
+import indexRouter from "./../routers/index"
 
 //3.引入路由
 import indexRoute from "./../routers/index"
@@ -31,12 +32,12 @@ nunjucks.configure(config.viewsPath, {
 app.use(indexRoute);
 
 //匹配路径
-app.get("/",(req,res)=>{
-    console.log(config.publicPath);
-    res.end("<h1>hello,world<h1/>");
-});
+// app.get("/",(req,res)=>{
+//     console.log(config.publicPath);
+//     res.end("<h1>hello,world<h1/>");
+// });
 
 //4.监听
-app.listen(3000,()=>{
+app.listen(3040,()=>{
    console.log("服务器已启动!")
 });
