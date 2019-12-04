@@ -18,11 +18,15 @@ router.get("/web",(req,res)=>{
     res.render("web/index.html");
 });
 
-/***********默认页面路由配置***********************************/
+router.get("/web/res",(req,res)=>{
+    //使用res.render来渲染 渲染back下面的index.html页面
+    res.render("web/resources.html");
+});
 
-
-
-
+router.get("/web/res_c",(req,res)=>{
+    //使用res.render来渲染 渲染back下面的index.html页面
+    res.render("web/resources_content.html");
+});
 //渲染完毕，需要输出
 module.exports = router;
 export default router;
