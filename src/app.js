@@ -31,11 +31,11 @@ nunjucks.configure(config.viewsPath, {
 //3. 挂载路由
 app.use(indexRoute);
 
-//匹配路径
-// app.get("/",(req,res)=>{
-//     console.log(config.publicPath);
-//     res.end("<h1>hello,world<h1/>");
-// });
+//上面的页面都没有每找到，渲染404页面
+app.use((req,res)=>{
+    res.render("404.html")
+});
+
 
 //4.监听
 app.listen(3040,()=>{
