@@ -10,10 +10,11 @@
 import express from "express"
 import config from "./config"
 import nunjucks from "nunjucks"
-import indexRouter from "./../routers/index"
 
 //3.引入路由
 import indexRoute from "./../routers/index"
+import sowingRouter from "./../routers/sowing"
+
 
 //2.创建服务器app
 const app = express();
@@ -30,6 +31,7 @@ nunjucks.configure(config.viewsPath, {
 
 //3. 挂载路由
 app.use(indexRoute);
+app.use(sowingRouter);
 
 //上面的页面都没有每找到，渲染404页面
 app.use((req,res)=>{
