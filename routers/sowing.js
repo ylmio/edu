@@ -13,7 +13,7 @@ router.get("/sowing/api/add",(req,res)=>{
         //图片地址
         image_url:"like.com/address.com",
         //跳转链接
-        image_link:"www.baidu.complete",
+        image_link:"www.baidu.complete ",
         //上架时间
         s_time:"2019-11-12",
         //下架时间
