@@ -5,7 +5,7 @@ const router = express.Router({});
 /*
 * 往数据库中插入一条数据
 * */
-router.get("/sowing/api/add",(req,res)=>{
+router.post("/sowing/api/add",(req,res)=>{
     //操作数据库
     const sowing = new Sowing({
         //图片名称

@@ -24,9 +24,9 @@ const sowingSchema = mongoose.Schema({
     //下架时间
     e_time:{type:String,required:true},
     //最后编辑 不须填写 默认当前时间
-    l_edit:{type:String,default:Date.now()},
+    l_edit:{type:Date,default:Date.now()},
     //添加时间 不须填写 默认当前时间
-    c_time:{type:String,default:Date.now()},
+    c_time:{type:Date,default:Date.now()},
 });
 
 //输出sowingSchema模式 添加 修改轮播图遵循这一模式
