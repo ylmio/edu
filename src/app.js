@@ -10,6 +10,7 @@
 import express from "express"
 import config from "./config"
 import nunjucks from "nunjucks"
+import bodyParser from "./../middle_wares/body_parser"
 
 //3.引入路由
 import indexRoute from "./../routers/index"
@@ -28,6 +29,9 @@ nunjucks.configure(config.viewsPath, {
     express: app,
     noCache: true//不使用缓存,,模板每次都会重新编译
 });
+
+//先配置数据请求中间件，再挂载路由
+app.use(bodyParser);
 
 //3. 挂载路由
 app.use(indexRoute);
