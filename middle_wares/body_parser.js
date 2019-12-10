@@ -6,7 +6,6 @@ export default (req,res,next)=> {
     if(req.method.toLocaleString()==="get"){
         return next();
     }
-
     //2.如果是普通的表单提交，要处理application/x-www-form-urlencoded
     //如果有文件（图片，音视频...）不要处理，交给multipart/form-data
     //console.log(req.headers["content-type"]); //在postman中请求测试
