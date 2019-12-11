@@ -1,4 +1,4 @@
-import querystring from "querystring"
+import querystring from "querystring";
 //处理post请求
 export default (req,res,next)=> {
     // console.log(req.method.toLocaleString());
