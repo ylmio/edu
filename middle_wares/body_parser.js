@@ -16,7 +16,7 @@ export default (req,res,next)=> {
     //3.数据流的拼接
     let data = '';
     req.on("data",(chunk)=>{
-        data += chunk;
+        data +=chunk;
     });
     req.on("end",()=>{
         console.log(data);
