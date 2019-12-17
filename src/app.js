@@ -11,6 +11,7 @@ import express from "express"
 import config from "./config"
 import nunjucks from "nunjucks"
 import bodyParser from "./../middle_wares/body_parser"
+import errorLog from "./../middle_wares/error_log"
 
 //3.引入路由
 import indexRoute from "./../routers/index"
@@ -36,6 +37,9 @@ app.use(bodyParser);
 //3. 挂载路由
 app.use(indexRoute);
 app.use(sowingRouter);
+
+//4.挂载错误中间件
+app.use(errorLog);
 
 //上面的页面都没有每找到，渲染404页面
 app.use((req,res)=>{
