@@ -35,5 +35,12 @@ router.post("/sowing/api/add",(req,res)=>{
     });
 });
 
+/*******************************页面路由***************************************/
+// 配置轮播图路由
+router.get("/back/s_list",(req,res,next)=>{
+    res.render("back/sowing_list.html");
+});
+
+
 
 export default router;
