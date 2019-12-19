@@ -36,10 +36,23 @@ router.post("/sowing/api/add",(req,res)=>{
 });
 
 /*******************************页面路由***************************************/
-// 配置轮播图路由
+
+/*
+* 加载轮播图列表
+*
+*  **/
 router.get("/back/s_list",(req,res,next)=>{
     res.render("back/sowing_list.html");
 });
+
+/*
+* 加载添加轮播图
+*
+*  **/
+router.get("/back/s_add",(req,res,next)=>{
+    res.render("back/sowing_add.html");
+});
+
 
 
 
