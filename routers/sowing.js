@@ -5,7 +5,7 @@ const router = express.Router({});
 /*
 * 往数据库中插入一条数据
 * */
-router.post("/sowing/api/add",(req,res)=>{
+router.post("/sowing/api/add",(req,res,next)=>{
     //1.获取数据
     const body = req.body;
     //操作数据库
@@ -34,6 +34,24 @@ router.post("/sowing/api/add",(req,res)=>{
         });
     });
 });
+
+/*
+* 获取所有的轮播图列表
+*
+* **/
+router.get("/sowing/api/list",(req,res,next)=>{
+    Sowing.find({},"_id image_title image_url image_link s_time e_time",(error,docs)=>{
+        if(error){
+            return next(error);
+        }
+        //返回数据
+        res.json({
+            status:200,
+            result:docs
+        });
+    });
+});
+
 
 /*******************************页面路由***************************************/
 
