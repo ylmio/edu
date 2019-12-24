@@ -132,7 +132,14 @@ router.get("/sowing/api/remove/:sowingId",(req,res,next)=>{
 *
 *  **/
 router.get("/back/s_list",(req,res,next)=>{
-    res.render("back/sowing_list.html");
+    //查询所有的数据
+    Sowing.find((err,sowings)=>{
+        if(err){
+            return next(err);
+        }
+        //sowings,是接收到的数据。nunjuncks模板方式
+        res.render("back/sowing_list.html",{sowings});
+    })
 });
 
 /*
