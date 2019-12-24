@@ -110,8 +110,20 @@ router.post("/sowing/api/edit",(req,res,next)=>{
 
 });
 
-
-
+/*根据id删除一条记录**/
+router.get("/sowing/api/remove/:sowingId",(req,res,next)=>{
+    Sowing.deleteOne({_id:req.params.sowingId},(error,result)=>{
+        if(error){
+            return next(error);
+        }
+        console.log(result);
+        //返回数据
+        res.json({
+            status:200,
+            result:"成功删除轮播图！"
+        });
+    });
+});
 
 /*******************************页面路由***************************************/
 
