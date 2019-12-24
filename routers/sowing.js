@@ -74,6 +74,44 @@ router.get("/sowing/api/single/:sowingId",(req,res,next)=>{
     });
 });
 
+/**
+ * 根据id去修改一条轮播图
+ *
+ * */
+router.post("/sowing/api/edit",(req,res,next)=>{
+    //1.根据id查询数据
+    Sowing.findById(req.body.id,(err,sowing)=>{
+        if(err){
+            return next(err);
+        }
+        //2.修改轮播图数据
+        const body = req.body;
+        sowing.image_title = body.image_title;
+        sowing.image_url = body.image_url;
+        sowing.image_link = body.image_link;
+        sowing.s_time = body.s_time;
+        sowing.e_time = body.e_time;
+
+        //3.保存
+        /*
+        * ——id  一样的：不会新增一条记录，而是去更新已有的数据
+        * */
+        sowing.save((err,result)=>{
+            if (err){
+                return next(err);
+            }
+            res.json({
+                status:200,
+                result:"修改数据成功"
+            });
+        });
+    });
+
+
+});
+
+
+
 
 /*******************************页面路由***************************************/
 
