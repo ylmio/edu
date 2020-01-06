@@ -89,35 +89,24 @@ router.get("/sowing/api/single/:sowingId",(req,res,next)=>{
  *
  * */
 router.post("/sowing/api/edit",(req,res,next)=>{
-    //1.根据id查询数据
-    Sowing.findById(req.body.id,(err,sowing)=>{
+    const form = new formidable.IncomingForm();
+    form.uploadDir = config.uploadPath;//上传图片放置的文件夹
+    form.keepExtensions = true;//保持文件的原始扩展名
+    form.parse(req,(err,fields,files)=>{
         if(err){
             return next(err);
         }
-        //2.修改轮播图数据
-        const body = req.body;
-        sowing.image_title = body.image_title;
-        sowing.image_url = body.image_url;
-        sowing.image_link = body.image_link;
-        sowing.s_time = body.s_time;
-        sowing.e_time = body.e_time;
-
-        //3.保存
-        /*
-        * ——id  一样的：不会新增一条记录，而是去更新已有的数据
-        * */
-        sowing.save((err,result)=>{
-            if (err){
+        //1.取出普通字段
+        let body = fields;
+        //2.根据id查询文档
+        Sowing.findById(body.id,(err,sowing)=>{
+            if(err){
                 return next(err);
             }
-            res.json({
-                status:200,
-                result:"修改数据成功"
-            });
+
         });
-    });
 
-
+    })
 });
 
 /*根据id删除一条记录**/
