@@ -6,4 +6,6 @@ export default {
     viewsPath:join(__dirname,"../views"),
     //public全路径
     publicPath:join(__dirname,"../public"),
+    //上传文件、图片路径
+    uploadPath:join(__dirname,"../public/uploads")
 }
