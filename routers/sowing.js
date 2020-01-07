@@ -149,7 +149,13 @@ router.get("/back/s_add",(req,res,next)=>{
     res.render("back/sowing_add.html");
 });
 
-
+/*
+* 加载修改轮播图
+*
+*  **/
+router.get("/back/s_edit",(req,res,next)=>{
+    res.render("back/sowing_edit.html");
+});
 
 
 export default router;
