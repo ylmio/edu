@@ -58,9 +58,11 @@
 {% block script %}
 <script>
     $(function () {
-        $(".btn-edit").on("click",()=>{
-            alert(0);
+        $(".btn-edit").on("click",function(){
             //将当前数据的id作为一个属性，绑定在“编辑”按钮上
+            let sowingId = $(this).attr("data-id");
+            //传递id
+            window.location.href = `/back/s_edit?sid=${sowingId}`;
 
         });
     });
