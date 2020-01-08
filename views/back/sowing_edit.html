@@ -3,6 +3,47 @@
 
 <!--新增的样式-->
 {% block style %}
+<style>
+    .preview {
+        width: 100%;
+        height: 120px;
+        padding: 0;
+        /*margin-left: 15px;*/
+        overflow: hidden;
+        position: relative;
+    }
+    .preview:hover .cover {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    .preview:hover .fa-upload {
+        color: rgba(240, 240, 240, 0.8);
+    }
+    #upfile {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 9;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+    .cover {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        line-height: 120px;
+        font-size: 40px;
+        background-color: rgba(0, 0, 0, 0);
+        transition: all 0.3s;
+    }
+    .fa-upload {
+        color: rgba(240, 240, 240, 0);
+    }
+
+</style>
 {% endblock %}
 
 <!--主要内容-->
@@ -15,43 +56,7 @@
             <li class="active">修改轮播图</li>
         </ol>
         <div class="advert-add">
-            <form action="/sowing/api/add" method="post" class="form-horizontal" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="" class="col-md-3 control-label">图片名称</label>
-                    <div class="col-md-5">
-                        <input name="image_title" type="text" class="form-control input-sm" placeholder="填写图片名称" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-md-3 control-label">图片路径</label>
-                    <div class="col-md-5">
-                        <input name="image_url" type="file" class="form-control input-sm" placeholder="请上传一张图片" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-md-3 control-label">跳转链接</label>
-                    <div class="col-md-5">
-                        <input name="image_link" type="text" class="form-control input-sm" placeholder="填写跳转链接" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-md-3 control-label">上架时间</label>
-                    <div class="col-md-5">
-                        <input name="s_time" type="date" class="form-control input-sm" placeholder="填写上架时间" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-md-3 control-label">下架时间</label>
-                    <div class="col-md-5">
-                        <input name="e_time" type="date" class="form-control input-sm" placeholder="填写下架时间" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-8">
-                        <input type="submit" class="btn btn-danger btn-sm pull-right" value="修改轮播图">
-                    </div>
-                </div>
-            </form>
+
         </div>
     </div>
 </div>
@@ -60,7 +65,106 @@
 <!--脚本-->
 {% block script %}
 <script>
+    $(function () {
+        loadData();
+    });
+    function loadData(){
+        let url = window.location.search,sowingId="";
+        if(url.indexOf("?")!=="-1"){//有？
+            sowingId = url.substr(url.indexOf("=")+1);
+        }
+        // console.log(url,sowingId)
+        //2.发起ajax请求
+        $.ajax({
+            url:"http://localhost:3040/sowing/api/single/"+sowingId,
+            type:"get",
+            dataType:"json",
+            success:function(data){
+                //2.1 注入数据
+                let tpl = `
+                <form action="/sowing/api/edit" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="col-md-3 control-label">图片名称</label>
+                    <div class="col-md-5">
+                        <input id="image_title" name="image_title" type="text" class="form-control input-sm" placeholder="填写图片名称" value="${data.result.image_title}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-md-3 control-label">图片路径</label>
+                    <div class="col-md-5">
+                        <div class="col-md-2 preview">
+                            <img id="image_url" src="/uploads/${data.result.image_url}" style="border: 1px solid #e0e0e0;">
+                            <input type="file" id="upfile">
+                            <div class="cover">
+                                <i class="fa fa-upload"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-md-3 control-label">跳转链接</label>
+                    <div class="col-md-5">
+                        <input id="image_link" name="image_link" type="text" class="form-control input-sm" placeholder="填写跳转链接" value="${data.result.image_link}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-md-3 control-label">上架时间</label>
+                    <div class="col-md-5">
+                        <input id="s_time" name="s_time" type="date" class="form-control input-sm" placeholder="填写上架时间" value="${data.result.s_time}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-md-3 control-label">下架时间</label>
+                    <div class="col-md-5">
+                        <input id="e_time" name="e_time" type="date" class="form-control input-sm" placeholder="填写下架时间" value="${data.result.e_time}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-8">
+                        <input id="btn_edit" type="button" class="btn btn-danger btn-sm pull-right" value="修改轮播图">
+                    </div>
+                </div>
+            </form>
+                `;
+                $(".advert-add").append(tpl);
+                //2.2上传图片的加载处理
+                $("#upfile").on("change",function () {
+                    //2.2.1获取用户上传的图片文件 $(this).get(0).files[0]
+                    let file = $(this).get(0).files[0];
+                    //2.2.2读取这个文件
+                    let src = "";
+                    let reader = new FileReader();
+                    if(file){
+                        reader.readAsDataURL(file);
+                    }else{
+                        src = ""
+                    }
+                    //2.2.3监听文件是否读取完毕
+                    reader.onloadend = function () {
+                        $("#image_url").attr("src",this.result);
+                    }
 
+                });
+                //2.3 提交表单
+                //2.3.1 后去修改后的表单数据
+                $("#btn_edit").on("click",function () {
+                    console.log(data);
+                    let id = data.result._id;
+                    let image_title = $("#image_title").val();
+                    //判断，url是否有值，有：传新值；无：传旧值
+                    let image_url = $("#upfile").get(0).files[0] || $("#image_url").val();
+                    let image_link = $("#image_link").val();
+                    let s_time = $("#s_time").val();
+                    let e_time = $("#e_time").val();
+                    console.log(id,image_title,image_url,image_link,s_time,e_time);
+
+                })
+
+
+            }
+
+        })
+    }
 </script>
 {% endblock %}
 
