@@ -148,16 +148,43 @@
                 //2.3 提交表单
                 //2.3.1 后去修改后的表单数据
                 $("#btn_edit").on("click",function () {
-                    console.log(data);
                     let id = data.result._id;
                     let image_title = $("#image_title").val();
                     //判断，url是否有值，有：传新值；无：传旧值
-                    let image_url = $("#upfile").get(0).files[0] || $("#image_url").val();
+                    let image_url = $("#upfile").get(0).files[0] || data.result.image_url;
                     let image_link = $("#image_link").val();
                     let s_time = $("#s_time").val();
                     let e_time = $("#e_time").val();
-                    console.log(id,image_title,image_url,image_link,s_time,e_time);
+                    // console.log(id,image_title,image_url,image_link,s_time,e_time);
 
+                    //2.3.2 创建formData对象
+                    let formData = new FormData();
+                    formData.append("id",id);
+                    formData.append("image_title",image_title);
+                    formData.append("image_url",image_url);
+                    formData.append("image_link",image_link);
+                    formData.append("s_time",s_time);
+                    formData.append("e_time",e_time);
+                    //2.3.3 发起ajax请求
+                    let $form = $("form");
+                    $.ajax({
+                        url:$form.attr("action"),
+                        type:$form.attr("method"),
+                        data:formData,
+                        processData:false,//传递原生数据
+                        contentType:false,//不要设置请求头
+
+                        success:function (data) {
+                            console.log(data);
+                            if (data.status === 200){
+                                alert("轮播图修改成功！");
+                                window.location.href = "/back/s_list"
+                            }else {
+                                alert("轮播图修改失败！")
+                            }
+                        }
+
+                    });
                 })
 
 

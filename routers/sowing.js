@@ -41,6 +41,7 @@ router.post("/sowing/api/add",(req,res,next)=>{
                 status:200,
                 result:"添加轮播图成功"
             });
+            // return false;
         })
     })
 });
@@ -98,12 +99,32 @@ router.post("/sowing/api/edit",(req,res,next)=>{
         }
         //1.取出普通字段
         let body = fields;
+        console.log(body);
         //2.根据id查询文档
         Sowing.findById(body.id,(err,sowing)=>{
             if(err){
                 return next(err);
             }
+            //2.1修改文档的内容
+            console.log(sowing);
+            sowing.image_title = body.image_title;
+            sowing.image_link = body.image_link;
+            sowing.image_url = body.image_url|| basename(files.image_url.path);
+            sowing.s_time = body.s_time;
+            sowing.e_time = body.e_time;
+            sowing.l_edit = Date.now();//最后编辑
 
+            //2.2保存
+            sowing.save((err,result)=>{
+                if(err){
+                    return next(err);
+                }
+                res.json({
+                    status:200,
+                    result:"修改轮播图成功"
+                });
+
+            })
         });
 
     })
