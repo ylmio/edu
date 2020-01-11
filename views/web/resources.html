@@ -84,23 +84,11 @@
 <div class="mainWrap clearfix">
 	<div class="banner_pagex">
     	<ul class="banner_box">
-            <li class="one" style="background:url(Images/bannerx.jpg) no-repeat top center">
-                <a href="#" target="_blank"></a>
+            {% for sowing in sowings%}
+            <li class="{{sowing.image_tag}}" style="background:url('/uploads/{{sowing.image_url}}') no-repeat top center">
+                <a href="{{sowing.image_link}}" target="_blank"></a>
             </li>
-
-            <li class="two" style="background:url(Images/bannerx.jpg) no-repeat top center">
-                <a href="#" target="_blank"></a>
-            </li>
-
-            <li class="three" style="background:url(Images/bannerx.jpg) no-repeat top center">
-                <a href="#" target="_blank"></a>
-            </li>
-
-            <li class="four" style="background:url(Images/bannerx.jpg) no-repeat top center">
-                <a href="#" target="_blank"></a>
-            </li>
-
-
+            {%endfor%}
     	</ul>
         <ul class="btn_list clearfix">
         	<li class="on"></li>
