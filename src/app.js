@@ -16,6 +16,7 @@ import errorLog from "./../middle_wares/error_log"
 //3.引入路由
 import indexRoute from "./../routers/index"
 import sowingRouter from "./../routers/sowing"
+import userRouter from "./../routers/user"
 
 
 //2.创建服务器app
@@ -37,6 +38,7 @@ app.use(bodyParser);
 //3. 挂载路由
 app.use(indexRoute);
 app.use(sowingRouter);
+app.use(userRouter);
 
 //4.挂载错误中间件
 app.use(errorLog);
