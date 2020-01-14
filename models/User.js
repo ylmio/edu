@@ -19,11 +19,11 @@ const userSchema = mongoose.Schema({
     //自我介绍
     intro_self:{type:String,default:"喜欢IT，就来撩课！"},
     //积分
-    points:{type:Number,default:"100"},
+    points:{type:Number,default:100},
     //等级
-    rank:{type:Number,default:"1"},
+    rank:{type:Number,default:1},
     //金币
-    gold:{type:Number,default:"0"},
+    gold:{type:Number,default:0},
     //最后编辑 不须填写 默认当前时间
     l_edit:{type:Date,default:Date.now()},
     //添加时间 不须填写 默认当前时间
