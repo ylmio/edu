@@ -13,7 +13,7 @@ const S_KEY = '@Walk1314?.ItE.Com#';
 * */
 router.post('/user/api/add',(req,res,next)=>{
     const user_name = req.body.user_name || '';
-    const user_pwd = md5(req.body.user_pwd) + S_KEY || '';
+    const user_pwd = md5(req.body.user_pwd + S_KEY) || '';
 
     //操作数据库
     const user = new User({
@@ -35,6 +35,53 @@ router.post('/user/api/add',(req,res,next)=>{
     })
 
 });
+
+/*
+* 用户名和密码进行登陆 接口
+* */
+router.post('/user/api/login',(req,res,next)=>{
+    //1.获取用户传过来的数据
+    const user_name = req.body.user_name;
+    const user_pwd = req.body.user_pwd;
+
+    console.log("------------------------------------------");
+    console.log(req.body);
+    console.log("------------------------------------------");
+
+    //2.查询数据
+    User.findOne({user_name:user_name},(err,user)=>{
+        if(err){
+            return next(err);
+        }
+
+        //2.1如果用户存在
+        if(user !== null){
+            //2.2判断密码
+            if(user.user_pwd === user_pwd){//密码匹配成功
+                res.json({
+                    status:200,
+                    result:{
+                        token:user._id,
+                        message:"登陆成功！"
+                    }
+                });
+            }else{
+                res.json({
+                    status:1,
+                    result:"输入密码有误"
+                });
+            }
+        }else{
+            res.json({
+                status:1,
+                result:"输入的口令不存在！"
+            });
+        }
+    });
+
+});
+
+
 
 /***********************数据接口API-end*******************************************/
 

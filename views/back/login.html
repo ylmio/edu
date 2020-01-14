@@ -16,25 +16,64 @@
             <div class="avatar">
                 <img src="./uploads/logo.jpg" class="img-circle" alt="">
             </div>
-            <form action="" class="col-md-offset-1 col-md-10">
+            <form action="http://localhost:3040/user/api/login" method="post" class="col-md-offset-1 col-md-10">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">
                         <i class="fa fa-id-card-o"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="撩课口令">
+                    <input id="user_name" name="user_name" type="text" class="form-control" placeholder="撩课口令" required>
                 </div>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">
                         <i class="fa fa-key"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="密码">
+                    <input id="user_pwd" name="user_pwd" type="password" class="form-control" placeholder="密码" required>
                 </div>
-                <button type="submit" class="btn btn-lg btn-danger btn-block">登 录</button>
+                <button type="button" class="btn btn-lg btn-danger btn-block btn-login">登 录</button>
             </form>
         </div>
     </div>
-    
+
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.12.0/js/md5.js"></script>
+    <script>
+        $(function(){
+            $(".btn-login").on("click",()=>{
+                //固定加盐的字符串
+                const S_KEY = '@Walk1314?.ItE.Com#';
+                //1.获取用户名和密码
+                let user_name = $("#user_name").val();
+                let user_pwd = $("#user_pwd").val();
+                let md5_user_pwd = md5(user_pwd + S_KEY);
+                console.log(md5_user_pwd);
+
+                //2.发起ajax请求
+                let $form = $("form");
+                $.ajax({
+                    url:$form.attr("action"),
+                    type:$form.attr("method"),
+                    data:`user_name=${user_name}&user_pwd=${md5_user_pwd}`,
+                    success:function (data) {
+                        console.log(data);
+                        if (data.status === 200){//登陆成功
+                            alert("登陆成功！");
+                            //存储token到本地
+                            sessionStorage.setItem("result",JSON.stringify(data.result));
+                            //登陆成功跳转到后台的主页面
+                            window.location.href = "/back"
+                        }else {
+                            alert(data.result);
+                            //清空输入框
+                            $("#user_name").val('');
+                            $("#user_pwd").val('');
+                        }
+                    }
+                });
+
+
+            });
+        });
+    </script>
 </body>
 </html>
