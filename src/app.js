@@ -16,7 +16,7 @@ import errorLog from "./../middle_wares/error_log"
 //引入express-session
 import session from 'express-session'
 //引入connect-mongo用于express连接数据库存储session
-const mongoStore = required('connect-mongo')(session);
+const MongoStore = require('connect-mongo')(session);
 
 //3.引入路由
 import indexRoute from "./../routers/index"

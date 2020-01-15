@@ -58,6 +58,9 @@ router.post('/user/api/login',(req,res,next)=>{
         if(user !== null){
             //2.2判断密码
             if(user.user_pwd === user_pwd){//密码匹配成功
+                //session中存token
+                req.session.token = user._id;
+                console.log(req.session);
                 res.json({
                     status:200,
                     result:{
@@ -77,6 +80,26 @@ router.post('/user/api/login',(req,res,next)=>{
                 result:"输入的口令不存在！"
             });
         }
+    });
+
+});
+
+/*
+* 退出登陆
+* */
+router.get("/back/user/api/logout",(req,res,next)=>{
+    //方法一：将cookie的时间设置为0，只有cookie中携带的信息通过客户端请求传到服务器，由对应的session接收session才起作用，cookie没了session自然而然的将不起作用
+    req.session.cookie.originalMaxAge = 0;
+    //方式二：
+    // req.session.destroy((err)=>{
+    //     console.log(err);
+    //     return next(err);
+    // });
+
+    //提示用户
+    res.json({
+        status:200,
+        result:"退出登陆成功！"
     });
 
 });
