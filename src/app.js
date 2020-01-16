@@ -12,6 +12,7 @@ import config from "./config"
 import nunjucks from "nunjucks"
 import bodyParser from "./../middle_wares/body_parser"
 import errorLog from "./../middle_wares/error_log"
+import loginPass from "./../middle_wares/login_pass"
 
 //引入express-session
 import session from 'express-session'
@@ -56,6 +57,13 @@ nunjucks.configure(config.viewsPath, {
 
 //先配置数据请求中间件，再挂载路由
 app.use(bodyParser);
+
+
+//配置后端拦截中间件
+app.use(loginPass);
+
+
+
 
 //3. 挂载路由
 app.use(indexRoute);
