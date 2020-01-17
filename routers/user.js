@@ -104,6 +104,27 @@ router.get("/back/user/api/logout",(req,res,next)=>{
 
 });
 
+/*
+* 获取用户信息
+* */
+router.get('/back/user/api/u_msg/:token',(req,res,next)=>{
+    console.log(req);
+    //查询用户信息
+    User.findById(req.params.token,"-_id real_name user_img intro_self points rank gold",(err,user)=>{
+        if(err){
+            return next(err);
+        }
+        if(user){//如果查到，返回user信息
+            res.json({
+                status:200,
+                result:user
+            });
+        }else{//如果没有查到(几乎不会出现) 销毁token
+            req.session.cookie.maxAge = 0;
+        }
+    });
+});
+
 
 
 /***********************数据接口API-end*******************************************/
