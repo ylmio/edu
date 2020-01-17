@@ -59,7 +59,7 @@
                         if (data.status === 200){//登陆成功
                             alert("登陆成功！");
                             //存储token到本地
-                            sessionStorage.setItem("result",JSON.stringify(data.result));
+                            localStorage.setItem("result",JSON.stringify(data.result));
                             //登陆成功跳转到后台的主页面
                             window.location.href = "/back"
                         }else {
