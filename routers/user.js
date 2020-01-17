@@ -1,6 +1,9 @@
 import express from "express"
 import User from "./../models/User"
 import md5 from "blueimp-md5"
+import formidable from "formidable"
+import config from "./../src/config"
+import {basename} from "path"
 const router = express.Router({});
 
 //固定加盐的字符串
@@ -105,7 +108,7 @@ router.get("/back/user/api/logout",(req,res,next)=>{
 });
 
 /*
-* 获取用户信息
+* 获取用户信息 - 部分
 * */
 router.get('/back/user/api/u_msg/:token',(req,res,next)=>{
     console.log(req);
@@ -125,7 +128,70 @@ router.get('/back/user/api/u_msg/:token',(req,res,next)=>{
     });
 });
 
+/*
+* 获取用户信息 - 所有
+* */
+router.get('/back/user/api/u_msg_all/:token',(req,res,next)=>{
+    console.log(req);
+    //查询用户信息
+    User.findById(req.params.token,"-_id -user_name -user_pwd -l_time -c_time",(err,user)=>{
+        if(err){
+            return next(err);
+        }
+        if(user){//如果查到，返回user信息
+            res.json({
+                status:200,
+                result:user
+            });
+        }else{//如果没有查到(几乎不会出现) 销毁token
+            req.session.cookie.maxAge = 0;
+        }
+    });
+});
 
+/**
+ * 根据id（token）去修改一条用户信息
+ *
+ * */
+router.post("/back/user/api/edit",(req,res,next)=>{
+    const form = new formidable.IncomingForm();
+    form.uploadDir = config.uploadPath;//上传图片放置的文件夹
+    form.keepExtensions = true;//保持文件的原始扩展名
+    form.parse(req,(err,fields,files)=>{
+        if(err){
+            return next(err);
+        }
+        //1.取出普通字段
+        let body = fields;
+        console.log(body);
+        //2.根据id查询文档
+        User.findById(body.token,(err,user)=>{
+            if(err){
+                return next(err);
+            }
+            //2.1修改文档的内容
+            user.real_name = body.real_name;
+            user.user_img = body.user_img || basename(files.user_img.path);
+            user.phone = body.phone;
+            user.email = body.email;
+            user.join_time = body.join_time;
+            user.intro_self = body.intro_self;
+
+            //2.2保存
+            user.save((err,result)=>{
+                if(err){
+                    return next(err);
+                }
+                res.json({
+                    status:200,
+                    result:"用户信息修改成功"
+                });
+
+            })
+        });
+
+    })
+});
 
 /***********************数据接口API-end*******************************************/
 

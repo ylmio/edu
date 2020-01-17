@@ -145,7 +145,7 @@
                         //2.1注入数据
                         let tpl = `
                         <div class="pull-left">
-                            <img src="${data.result.user_img?'/uploads/'+data.result.user_img:'./uploads/avatar.png'}" class="img-circle pull-left" alt="">
+                            <img src="${data.result.user_img !=='undefined'?'/uploads/'+data.result.user_img:'/uploads/avatar.png'}" class="img-circle pull-left" alt="">
                             <span class="name">${data.result.real_name}</span>
                             <span>${data.result.intro_self}</span>
                         </div>
