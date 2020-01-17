@@ -193,6 +193,56 @@ router.post("/back/user/api/edit",(req,res,next)=>{
     })
 });
 
+/*
+* 根据token修改密码
+* */
+router.post("/back/user/api/reset",(req,res,next)=>{
+    //1.获取数据
+    const token = req.body.token;
+    const old_pwd = req.body.old_pwd;
+    const new_pwd = req.body.new_pwd;
+    //2.根据token查询用户
+    User.findById(token,(err,user)=>{
+        if(err){//如果错误，进入错误的中间件
+            return next(err);
+        }
+        //2.1查询有
+        if(user){//
+            //2.2取出散列
+            if(user.user_pwd !== old_pwd){
+                res.json({//没有
+                    status:1,
+                    result:"原密码不正确！"
+                });
+            }
+            //2.3更换密码
+            user.user_pwd = new_pwd;
+            //2.4保存到数据库
+            user.save((err,result)=>{
+                if(err){//如果错误，进入错误的中间件
+                    return next(err);
+                }
+                //2.5告诉客户端
+                res.json({
+                    status:200,
+                    result:"密码修改成功"
+                });
+            })
+        }else{
+            res.json({//没有
+                status:1,
+                result:"非法用户"
+            });
+        }
+
+    });
+});
+
+
+
+
+
+
 /***********************数据接口API-end*******************************************/
 
 
