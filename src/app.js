@@ -23,6 +23,7 @@ const MongoStore = require('connect-mongo')(session);
 import indexRoute from "./../routers/index"
 import sowingRouter from "./../routers/sowing"
 import userRouter from "./../routers/user"
+import sourceRouter from "./../routers/source"
 
 
 //2.创建服务器app
@@ -69,6 +70,7 @@ app.use(loginPass);
 app.use(indexRoute);
 app.use(sowingRouter);
 app.use(userRouter);
+app.use(sourceRouter);
 
 //4.挂载错误中间件
 app.use(errorLog);

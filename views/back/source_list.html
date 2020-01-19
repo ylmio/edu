@@ -10,38 +10,38 @@
     <div class="container-fluid">
     <div class="body advert">
         <ol class="breadcrumb">
-            <li><a href="/back/s_list">轮播图管理</a></li>
-            <li class="active">轮播图列表</li>
+            <li><a href="/back/source_list">资源文章管理</a></li>
+            <li class="active">文章列表</li>
         </ol>
         <div class="page-title">
-            <a href="/back/s_add" class="btn btn-danger btn-sm pull-right">添加轮播图</a>
+            <a href="/back/souce_add" class="btn btn-danger btn-sm pull-right">添加资源文章</a>
         </div>
         <div class="panel panel-default">
-            {% if sowings.length>0 %}
+            {% if sources.length>0 %}
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <td>序号</td>
-                        <th>图片名称</th>
-                        <th>图片缩略图</th>
-                        <th>跳转链接</th>
-                        <th>上架时间</th>
-                        <th>下架时间</th>
+                        <th>标题</th>
+                        <th>缩略图</th>
+                        <th>是否收藏</th>
+                        <th>价格</th>
+                        <th>作者</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                 <!--因为我们已经通过express集成了nunjucks模板，所有能够使用{}-->
-                {% for sowing in sowings%}
+                {% for source in sources%}
                     <tr>
                         <td>{{loop.index}}</td>
-                        <td>{{sowing.image_title}}</td>
+                        <td>{{source.title}}</td>
                         <td>
-                            <img src="/uploads/{{sowing.image_url}}" alt="" style="width: 200px">
+                            <img src="/uploads/{{source.small_img}}" alt="" style="width: 200px">
                         </td>
-                        <td>{{sowing.image_link}}</td>
-                        <td>{{sowing.s_time}}</td>
-                        <td>{{sowing.e_time}}</td>
+                        <td>{{source.is_store}}</td>
+                        <td>{{source.price}}</td>
+                        <td>{{source.author}}</td>
                         <td>
                             <a data-id="{{sowing._id}}" class="btn btn-primary btn-xs btn-edit">编辑</a>
                             <a data-id="{{sowing._id}}" class="btn btn-danger btn-xs btn-del">删除</a>
@@ -53,7 +53,7 @@
             {% else %}
             <div>
                 <img src="./images/liao.jpg" style="width: 200px;margin: 0 auto;" alt="">
-                <h3 style="text-align: center">小撩温馨提示：页面还没有文章呦，赶紧去添加吧~</h3>
+                <h3 style="text-align: center">小撩温馨提示：页面还没有轮播图呦，赶紧去添加吧~</h3>
             </div>
             {% endif%}
         </div>
