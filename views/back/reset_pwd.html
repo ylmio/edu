@@ -52,9 +52,9 @@
         $("form").on("submit",function () {
             let old_pwd = $("#old_pwd").val();
             let new_pwd = $("#new_pwd").val();
-            let re_pwd = $("#red_pwd").val();
+            let re_pwd = $("#re_pwd").val();
             //2.对比
-            if(new_pwd === re_pwd){
+            if(new_pwd !== re_pwd){
                 alert("两次输入新密码不一致！");
                 return;
             }
@@ -66,7 +66,7 @@
             $.ajax({
                 url:$(this).attr("action"),
                 type:$(this).attr("method"),
-                data:`${token}&&${md5_old_pwd}&&${md5_new_pwd}`,
+                data:`token=${token}&old_pwd=${md5_old_pwd}&new_pwd=${md5_new_pwd}`,
                 success:function (data) {
                     console.log(data);
                     if (data.status === 200){
