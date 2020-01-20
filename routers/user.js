@@ -46,11 +46,6 @@ router.post('/user/api/login',(req,res,next)=>{
     //1.获取用户传过来的数据
     const user_name = req.body.user_name;
     const user_pwd = req.body.user_pwd;
-
-    console.log("------------------------------------------");
-    console.log(req.body);
-    console.log("------------------------------------------");
-
     //2.查询数据
     User.findOne({user_name:user_name},(err,user)=>{
         if(err){
@@ -63,7 +58,6 @@ router.post('/user/api/login',(req,res,next)=>{
             if(user.user_pwd === user_pwd){//密码匹配成功
                 //session中存token
                 req.session.token = user._id;
-                console.log(req.session);
                 res.json({
                     status:200,
                     result:{
@@ -111,7 +105,6 @@ router.get("/back/user/api/logout",(req,res,next)=>{
 * 获取用户信息 - 部分
 * */
 router.get('/back/user/api/u_msg/:token',(req,res,next)=>{
-    console.log(req);
     //查询用户信息
     User.findById(req.params.token,"-_id real_name user_img intro_self points rank gold",(err,user)=>{
         if(err){
@@ -132,7 +125,6 @@ router.get('/back/user/api/u_msg/:token',(req,res,next)=>{
 * 获取用户信息 - 所有
 * */
 router.get('/back/user/api/u_msg_all/:token',(req,res,next)=>{
-    console.log(req);
     //查询用户信息
     User.findById(req.params.token,"-_id -user_name -user_pwd -l_time -c_time",(err,user)=>{
         if(err){
@@ -163,7 +155,6 @@ router.post("/back/user/api/edit",(req,res,next)=>{
         }
         //1.取出普通字段
         let body = fields;
-        console.log(body);
         //2.根据id查询文档
         User.findById(body.token,(err,user)=>{
             if(err){

@@ -99,14 +99,14 @@ router.post("/back/sowing/api/edit",(req,res,next)=>{
         }
         //1.取出普通字段
         let body = fields;
-        console.log(body);
+        // console.log(body);
         //2.根据id查询文档
         Sowing.findById(body.id,(err,sowing)=>{
             if(err){
                 return next(err);
             }
             //2.1修改文档的内容
-            console.log(sowing);
+            // console.log(sowing);
             sowing.image_title = body.image_title;
             sowing.image_link = body.image_link;
             sowing.image_url = body.image_url|| basename(files.image_url.path);
@@ -136,7 +136,7 @@ router.get("/back/sowing/api/remove/:sowingId",(req,res,next)=>{
         if(error){
             return next(error);
         }
-        console.log(result);
+        // console.log(result);
         //返回数据
         res.json({
             status:200,
