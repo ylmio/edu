@@ -43,8 +43,8 @@
                         <td>{{source.price}}</td>
                         <td>{{source.author}}</td>
                         <td>
-                            <a data-id="{{sowing._id}}" class="btn btn-primary btn-xs btn-edit">编辑</a>
-                            <a data-id="{{sowing._id}}" class="btn btn-danger btn-xs btn-del">删除</a>
+                            <a data-id="{{source._id}}" class="btn btn-primary btn-xs btn-edit">编辑</a>
+                            <a data-id="{{source._id}}" class="btn btn-danger btn-xs btn-del">删除</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -68,18 +68,18 @@
         //点击了修改按钮
         $(".btn-edit").on("click",function(){
             //将当前数据的id作为一个属性，绑定在“编辑”按钮上
-            let sowingId = $(this).attr("data-id");
+            let sourceId = $(this).attr("data-id");
             //传递id
-            window.location.href = `/back/s_edit?sid=${sowingId}`;
+            window.location.href = `/back/source_edit?sid=${sourceId}`;
 
         });
         //点击了删除按钮
         $(".btn-del").on("click",function(){
             //将当前数据的id作为一个属性，绑定在“编辑”按钮上
-            let sowingId = $(this).attr("data-id");
+            let sourceId = $(this).attr("data-id");
             //发起ajax请求
             $.ajax({
-                url:"http://localhost:3040/back/sowing/api/remove/" + sowingId,
+                url:"http://localhost:3040/back/source/api/remove/" + sourceId,
                 type:"get",
                 dataType:"json",
                 success:function (data) {

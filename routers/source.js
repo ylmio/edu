@@ -4,6 +4,7 @@ import Source from "./../models/Source"
 import formidable from "formidable"
 import {basename} from "path"
 import config from "./../src/config"
+import Sowing from "../models/sowing";
 const router = express.Router({});
 /*******************************接口api-start***************************************/
 
@@ -34,6 +35,46 @@ router.post('/back/source/api/add_img',(req,res,next)=>{
 
 });
 
+/*根据id去修改一篇文章*/
+router.post("/back/source/api/edit",(req,res,next)=>{
+    const form = new formidable.IncomingForm();
+    form.uploadDir = config.uploadPath;//上传图片放置的文件夹
+    form.keepExtensions = true;//保持文件的原始扩展名
+    form.parse(req,(err,fields,files)=>{
+        if(err){
+            return next(err);
+        }
+        //1.取出普通字段
+        let body = fields;
+        // console.log(body);
+        //2.根据id查询文档
+        Source.findById(body.id,(err,source)=>{
+            if(err){
+                return next(err);
+            }
+            //2.1修改文档的内容
+            // console.log(sowing);
+            source.title = body.title;
+            source.author = body.author;
+            source.small_img = body.small_img|| basename(files.image_url.path);
+            source.price = body.price;
+            source.content = body.content;
+
+            //2.2保存
+            source.save((err,result)=>{
+                if(err){
+                    return next(err);
+                }
+                res.json({
+                    status:200,
+                    result:"修改轮播图成功"
+                });
+
+            })
+        });
+
+    })
+});
 
 
 
