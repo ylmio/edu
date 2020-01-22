@@ -63,6 +63,7 @@
 
 <!--脚本-->
 {% block script %}
+<script src="./js/wangEditor/wangEditor.js"></script>
 <script>
     $(function () {
         loadData();
@@ -72,7 +73,7 @@
         if(url.indexOf("?")!=="-1"){//有？
             sourceId = url.substr(url.indexOf("=")+1);
         }
-        console.log(url,sourceId);
+        console.log(sourceId);
         //2.发起ajax请求
         $.ajax({
             url:"http://localhost:3040/back/source/api/single/"+sourceId,
@@ -109,7 +110,7 @@
                 <div class="form-group">
                     <label for="" class="col-md-3 control-label">价格</label>
                     <div class="col-md-5">
-                        <input name="price" type="text" class="form-control input-sm" placeholder="请填写价格" value="${data.result.price}" required>
+                        <input name="price" type="number" class="form-control input-sm" placeholder="请填写价格" value="${data.result.price}" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -119,9 +120,44 @@
                         <div id="editor"></div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-md-8">
+                        <input type="submit" class="btn btn-danger btn-sm pull-right" value="修改文章">
+                    </div>
+                </div>
             </form>
                 `;
                 $(".advert-add").append(tpl);
+                //2.2配置编辑器
+                let E = window.wangEditor;
+                let editor = new E('#editor');
+                // 2.3自定义上传图片事件
+                editor.customConfig.customUploadImg = function (files, insert) {
+                    // files 是 input 中选中的文件列表
+                    // 2.1上传图片到服务器
+                    if(files.length>0){//有图片文件
+                        //取出图片
+                        let formData = new FormData();
+                        formData.append("image_url",files[0]);
+                        //发起ajax请求
+                        $.ajax({
+                            url:"http://localhost:3040/back/source/api/add_img",
+                            type:"post",
+                            data:formData,
+                            processData:false,//传递原生数据
+                            contentType:false,//不要设置请求头
+                            success:function (data) {
+                                console.log(data);
+                                if (data.status === 200){//上传成功
+                                    insert(data.result)
+                                }
+                            }
+                        });
+                    }
+                };
+                editor.create();
+                //2.4给编辑器设置内容
+                editor.txt.html(data.result.content);
                 //2.2上传图片的加载处理
                 $("#upfile").on("change",function () {
                     //2.2.1获取用户上传的图片文件 $(this).get(0).files[0]
@@ -136,55 +172,44 @@
                     }
                     //2.2.3监听文件是否读取完毕
                     reader.onloadend = function () {
-                        $("#image_url").attr("src",this.result);
+                        $("#small_img").attr("src",this.result);
                     }
 
                 });
-                //2.3 提交表单
-                //2.3.1 后去修改后的表单数据
-                $("#btn_edit").on("click",function () {
-                    let id = data.result._id;
-                    let image_title = $("#image_title").val();
-                    //判断，url是否有值，有：传新值；无：传旧值
-                    let image_url = $("#upfile").get(0).files[0] || data.result.image_url;
-                    let image_link = $("#image_link").val();
-                    let s_time = $("#s_time").val();
-                    let e_time = $("#e_time").val();
-                    // console.log(id,image_title,image_url,image_link,s_time,e_time);
-
-                    //2.3.2 创建formData对象
-                    let formData = new FormData();
-                    formData.append("id",id);
-                    formData.append("image_title",image_title);
-                    formData.append("image_url",image_url);
-                    formData.append("image_link",image_link);
-                    formData.append("s_time",s_time);
-                    formData.append("e_time",e_time);
-                    //2.3.3 发起ajax请求
-                    let $form = $("form");
-                    $.ajax({
-                        url:$form.attr("action"),
-                        type:$form.attr("method"),
-                        data:formData,
-                        processData:false,//传递原生数据
-                        contentType:false,//不要设置请求头
-
-                        success:function (data) {
-                            console.log(data);
-                            if (data.status === 200){
-                                alert("轮播图修改成功！");
-                                window.location.href = "/back/s_list"
-                            }else {
-                                alert("轮播图修改失败！")
+                //2.5 提交表单
+                //2.5.1 后去修改后的表单数据
+                $('form').on('submit', function () {
+                    // 2.6.1 获取编辑器中的内容
+                    let content = editor.txt.html();
+                    if(content){
+                        // 2.6.2 初始化上传数据
+                        let formData = new FormData($(this).get(0));
+                        formData.append('content', content);
+                        formData.append("id",data.result._id);
+                        formData.append("small_img",$("#upfile").get(0).files[0] || data.result.image_url);
+                        // 2.6.2 发起ajax请求
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type:$(this).attr('method'),
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                console.log(data);
+                                if(data.status === 200){ // 添加成功
+                                    alert('资源文章修改成功!');
+                                    window.location.href = '/back/source_list'
+                                }else {
+                                    alert('资源文章修改失败!');
+                                }
                             }
-                        }
-
-                    });
-                })
-
-
+                        });
+                    }else {
+                        alert('请输入文章的内容!');
+                    }
+                    return false;
+                });
             }
-
         })
     }
 </script>

@@ -101,7 +101,7 @@ router.post("/back/source/api/edit",(req,res,next)=>{
             //2.1修改文档的内容
             source.title = body.title;
             source.author = body.author;
-            source.small_img = body.small_img|| basename(files.image_url.path);
+            source.small_img = body.small_img|| basename(files.small_img.path);
             source.price = body.price;
             source.content = body.content;
             //2.2保存
