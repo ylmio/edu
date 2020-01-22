@@ -1,6 +1,5 @@
 {% extends "back/base.html"%}
 
-
 <!--新增的样式-->
 {% block style %}
 <style>
@@ -71,9 +70,9 @@
     function loadData(){
         let url = window.location.search,sourceId="";
         if(url.indexOf("?")!=="-1"){//有？
-            sowingId = url.substr(url.indexOf("=")+1);
+            sourceId = url.substr(url.indexOf("=")+1);
         }
-        // console.log(url,sowingId)
+        console.log(url,sourceId);
         //2.发起ajax请求
         $.ajax({
             url:"http://localhost:3040/back/source/api/single/"+sourceId,
@@ -82,18 +81,24 @@
             success:function(data){
                 //2.1 注入数据
                 let tpl = `
-                <form action="/back/sowing/api/edit" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="/back/source/api/edit" method="post" class="form-horizontal" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="" class="col-md-3 control-label">图片名称</label>
+                    <label for="" class="col-md-3 control-label">文章标题</label>
                     <div class="col-md-5">
-                        <input id="image_title" name="image_title" type="text" class="form-control input-sm" placeholder="填写图片名称" value="${data.result.image_title}" required>
+                        <input name="title" type="text" class="form-control input-sm" placeholder="请填写文章标题" value="${data.result.title}" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="col-md-3 control-label">图片路径</label>
+                    <label for="" class="col-md-3 control-label">作者</label>
+                    <div class="col-md-5">
+                        <input name="author" type="text" class="form-control input-sm" placeholder="请填写作者名称" value="${data.result.author}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-md-3 control-label">缩略图</label>
                     <div class="col-md-5">
                         <div class="col-md-2 preview">
-                            <img id="image_url" src="/uploads/${data.result.image_url}" style="border: 1px solid #e0e0e0;">
+                            <img id="small_img" src="/uploads/${data.result.small_img}" style="border: 1px solid #e0e0e0;">
                             <input type="file" id="upfile">
                             <div class="cover">
                                 <i class="fa fa-upload"></i>
@@ -102,26 +107,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="col-md-3 control-label">跳转链接</label>
+                    <label for="" class="col-md-3 control-label">价格</label>
                     <div class="col-md-5">
-                        <input id="image_link" name="image_link" type="text" class="form-control input-sm" placeholder="填写跳转链接" value="${data.result.image_link}" required>
+                        <input name="price" type="text" class="form-control input-sm" placeholder="请填写价格" value="${data.result.price}" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="col-md-3 control-label">上架时间</label>
-                    <div class="col-md-5">
-                        <input id="s_time" name="s_time" type="date" class="form-control input-sm" placeholder="填写上架时间" value="${data.result.s_time}" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-md-3 control-label">下架时间</label>
-                    <div class="col-md-5">
-                        <input id="e_time" name="e_time" type="date" class="form-control input-sm" placeholder="填写下架时间" value="${data.result.e_time}" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-8">
-                        <input id="btn_edit" type="button" class="btn btn-danger btn-sm pull-right" value="修改轮播图">
+                    <label for="" class="col-md-3 control-label">文章内容</label>
+                    <div class="col-md-7">
+                        <!--第三方编辑器-->
+                        <div id="editor"></div>
                     </div>
                 </div>
             </form>
