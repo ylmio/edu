@@ -40,7 +40,6 @@ router.post('/back/source/api/add', (req, res, next)=>{
     });
 });
 
-
 /*图片上传到uploads文件夹*/
 router.post('/back/source/api/add_img',(req,res,next)=>{
     const form = new formidable.IncomingForm();
@@ -118,6 +117,21 @@ router.post("/back/source/api/edit",(req,res,next)=>{
         });
 
     })
+});
+
+/*根据id删除一条记录**/
+router.get("/back/source/api/remove/:sourceId",(req,res,next)=>{
+    Source.deleteOne({_id:req.params.sourceId},(error,result)=>{
+        if(error){
+            return next(error);
+        }
+        // console.log(result);
+        //返回数据
+        res.json({
+            status:200,
+            result:"成功删除轮播图！"
+        });
+    });
 });
 
 /*******************************接口api-end***************************************/
