@@ -151,8 +151,8 @@ router.get("/back/source/api/count",(req,res,next)=>{
 /*获取列表页面数据*/
 router.get("/back/source/api/list",(req,res,next)=>{
     //接收两个参数
-    let page = Number(req.query.page,10) || 1;//当前页
-    let pageSize = Number(req.query.pageSize,10) || 3;//每页显示几条数据
+    let page = Number.parseInt(req.query.page,10) || 1;//当前页
+    let pageSize = Number.parseInt(req.query.pageSize,10) || 3;//每页显示几条数据
     //查询所有的数据 计算公式
     Source.find().skip((page-1)*pageSize).limit(pageSize).exec((err,sources)=>{
         if(err){
@@ -165,6 +165,58 @@ router.get("/back/source/api/list",(req,res,next)=>{
     });
 });
 
+/*前台获取总记录数*/
+router.get("/web/source/api/count",(req,res,next)=>{
+    Source.countDocuments((error,count)=>{
+        if(error){
+            return next(error);
+        }
+        //返回数据
+        res.json({
+            status:200,
+            result:count
+        });
+    });
+});
+
+/*前台获取资源列表*/
+router.get("/web/source/api/list",(req,res,next)=>{
+    //接收客户端传递的参数
+    let {page,pageSize,sortBy} = req.query;
+    page = Number.parseInt(page,10) || 1;//当前页
+    pageSize = Number.parseInt(pageSize,10) || 100;//每页显示几条数据
+    //数据查询规则
+    let sortObj;
+    if(sortBy === "price"){
+        sortObj = {"price":-1}
+    }else{//按照阅读量
+        sortObj = {"read_count":-1}
+    }
+    //查询所有的数据 计算公式
+    Source.find({},"title small_img price").sort(sortObj).skip((page-1)*pageSize).limit(pageSize).exec((err,sources)=>{
+        if(err){
+            return next(err);
+        }
+        res.json({
+            status:200,
+            result:sources
+        });
+    });
+});
+
+/*前台获取详情页数据*/
+router.get("/web/source/api/content/:sourceId",(req,res,next)=>{
+    //查询所有的数据 计算公式
+    Source.findById(req.params.sourceId,"title author read_count add_time content",(err,source)=>{
+        if(err){
+            return next(err);
+        }
+        res.json({
+            status:200,
+            result:source
+        });
+    })
+});
 
 
 /*******************************接口api-end***************************************/
