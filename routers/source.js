@@ -142,15 +142,39 @@ router.get("/back/source/api/remove/:sourceId",(req,res,next)=>{
 /*******************************页面路由-start***************************************/
 
 /*加载资源文章列表*/
+// router.get("/back/source_list",(req,res,next)=>{
+//     //查询所有的数据
+//     Source.find((err,sources)=>{
+//         if(err){
+//             return next(err);
+//         }
+//         //sources,是接收到的数据。nunjuncks模板方式
+//         res.render("back/source_list.html",{sources});
+//     })
+// });
+
 router.get("/back/source_list",(req,res,next)=>{
-    //查询所有的数据
-    Source.find((err,sources)=>{
+    //接收两个参数
+    let page = Number(req.query.page,10) || 1;//当前页
+    let pageSize = Number(req.query.pageSize,10) || 3;//每页显示几条数据
+    //查询所有的数据 计算公式
+    Source.find().skip((page-1)*pageSize).limit(pageSize).exec((err,sources)=>{
         if(err){
             return next(err);
         }
-        //sources,是接收到的数据。nunjuncks模板方式
-        res.render("back/source_list.html",{sources});
-    })
+        //查询数据库中总记录数 moongos方法
+        Source.countDocuments((err,count)=>{
+            if(err){
+                return next(err);
+            }
+            //返回总页码
+            let totalPage = Math.ceil(count/pageSize);
+            //返回当前页码
+
+            //sources,是接收到的数据。nunjuncks模板方式
+            res.render("back/source_list.html",{sources,totalPage,page});
+        });
+    });
 });
 
 /*加载添加资源文章列表*/
