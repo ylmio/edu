@@ -108,8 +108,8 @@
             <div class="sort_title"><span>排序：</span></div>
             <div class="sort_conts">
                 <ul class="sort_conts_ul">
-                    <li><a class="">最多下载</a></li>
-                    <li><a class="">最新</a></li>
+                    <li><a class="read_more">最多阅读</a></li>
+                    <li><a class="price">价格</a></li>
                 </ul>
             </div>
             <div class="sort_right"></div>
@@ -217,6 +217,15 @@
         });
         //2.加载数据
         loadData();
+        //3.最多阅读和最新发布
+        $(".read_more").on("click",()=>{
+            loadData(1,100,"more");
+        });
+
+        $(".price").on("click",()=>{
+            loadData(1,100,"price");
+        })
+
     });
     function loadData(page,pageSize,sortBy) {
         //1.过滤数据
