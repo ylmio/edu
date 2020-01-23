@@ -1,12 +1,8 @@
 <!-- 侧边栏 -->
 <div class="aside">
     <!-- 个人资料 -->
-    <div class="profile">
+    <div class="profile" id="person_msg">
         <!-- 头像 -->
-        <div class="avatar img-circle">
-            <img src="./uploads/avatar.png">
-        </div>
-        <h4>旋之华</h4>
     </div>
     <!-- 导航菜单 -->
     <div class="navs">
@@ -51,3 +47,43 @@
         </ul>
     </div>
 </div>
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+        //1.1获取本地的token
+        let token = JSON.parse(localStorage.getItem("result")).token;
+        console.log(token); //5e1dd1f95ac11d5924cdccdf
+        //1.2根据token请求用户信息
+        if(token){
+            //2.发起ajax请求
+            $.ajax({
+                url:"http://localhost:3040/back/user/api/u_msg/"+token,
+                type:"get",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                    if(data.status === 200){
+                        //2.1注入数据
+                        let tpl = `
+                            <div class="avatar img-circle">
+                                <img src="${data.result.user_img !=='undefined'?'/uploads/'+data.result.user_img:'/uploads/avatar.png'}" class="img-circle pull-left" alt="">
+                            </div>
+                            <h4>${data.result.real_name}</h4>
+                            `;
+                        $("#person_msg").append(tpl);
+                    }else{
+                        alert("获取用户失败");
+                    }
+                }
+
+
+
+            })
+        }else{//如果token不存在
+            //删除本地数据
+            localStorage.removeItem("result");
+            //跳转到登陆页面
+            window.location.href = "/back/login";
+        }
+    });
+</script>
