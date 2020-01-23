@@ -19,8 +19,10 @@
                     alert(data.result);
                     //删除本地数据
                     sessionStorage.removeItem("result");
+                    sessionStorage.setItem("selectedTag","one");
                     //跳转到登陆页面
                     window.location.href = "/back/login";
+
                 }
             })
         });

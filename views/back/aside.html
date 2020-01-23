@@ -5,51 +5,59 @@
         <!-- 头像 -->
     </div>
     <!-- 导航菜单 -->
-    <div class="navs">
-        <ul class="list-unstyled">
-            <li>
-                <a href="/back" class="active">
-                    <i class="fa fa-area-chart"></i>
-                    首页数据
-                </a>
-            </li>
-            <li>
-                <a href="/back/source_list">
-                    <i class="fa fa-users"></i>
-                    幼教资源管理
-                </a>
-            </li>
-            <li>
-                <a href="/back/s_list">
-                    <i class="fa fa-calculator"></i>
-                    轮播图管理
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-object-group"></i>
-                    用户管理
-                    <i class="arrow fa fa-angle-right"></i>
-                </a>
-                <ul class="list-unstyled" style="display: block">
-                    <li>
-                        <a href="/back/u_center">
-                            用户中心
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/back/u_set">
-                            用户信息
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div class="navs" id="lk_nav">
+
     </div>
 </div>
 <script src="./js/jquery-3.4.1.min.js"></script>
 <script>
     $(function () {
+        //0.处理选中
+        let selectedTag = sessionStorage.getItem("selectedTag") || "one";
+        let userSelectedTag = sessionStorage.getItem("userSelectedTag");
+        let t_html = `
+                <ul class="list-unstyled" id="lk_item">
+                    <li>
+                        <a tag="one" href="/back" class="${selectedTag === 'one' ? 'active':''}">
+                            <i class="fa fa-area-chart"></i>
+                            首页数据
+                        </a>
+                    </li>
+                    <li>
+                        <a tag="two" href="/back/source_list" class="${selectedTag === 'two' ? 'active':''}">
+                            <i class="fa fa-users"></i>
+                            幼教资源管理
+                        </a>
+                    </li>
+                    <li>
+                        <a tag="three" href="/back/s_list" class="${selectedTag === 'three' ? 'active':''}">
+                            <i class="fa fa-calculator"></i>
+                            轮播图管理
+                        </a>
+                    </li>
+                    <li>
+                        <a tag="four" href="/back/u_center" class="${selectedTag === 'four' ? 'active':''}">
+                            <i class="fa fa-object-group"></i>
+                            用户管理
+                            <i class="arrow fa fa-angle-right"></i>
+                        </a>
+                        <ul id="user_item" class="list-unstyled" style="display: block">
+                            <li>
+                                <a tag="four_one" href="/back/u_center" class="${userSelectedTag === 'four_one' ? 'active':''}">
+                                    用户中心
+                                </a>
+                            </li>
+                            <li>
+                                <a tag="four_two" href="/back/u_set"  class="${userSelectedTag === 'four_two' ? 'active':''}">
+                                    用户信息
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+        `;
+        $("#lk_nav").html(t_html);
+        //1.请求用户数据
         //1.1获取本地的token
         let token = JSON.parse(localStorage.getItem("result")).token;
         console.log(token); //5e1dd1f95ac11d5924cdccdf
@@ -85,5 +93,20 @@
             //跳转到登陆页面
             window.location.href = "/back/login";
         }
+
+        //2.处理点击选中
+        $("#lk_item>li>a").on("click",function () {
+            //2.0 判断
+            if($(this).attr("tag")!=="four"){
+                sessionStorage.setItem("userSelectedTag","");
+            }
+            //.1存储选中的tag到本地
+            sessionStorage.setItem("selectedTag",$(this).attr("tag"));
+        });
+
+        $("#user_item>li>a").on("click",function () {
+            sessionStorage.setItem("selectedTag","four");
+            sessionStorage.setItem("userSelectedTag",$(this).attr("tag"));
+        });
     });
 </script>

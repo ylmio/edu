@@ -60,6 +60,8 @@
                             alert("登陆成功！");
                             //存储token到本地
                             localStorage.setItem("result",JSON.stringify(data.result));
+                            sessionStorage.setItem("selectedTag","one");
+                            sessionStorage.setItem("userSelectedTag","");
                             //登陆成功跳转到后台的主页面
                             window.location.href = "/back"
                         }else {
