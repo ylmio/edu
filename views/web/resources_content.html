@@ -321,6 +321,15 @@
 
             }
         });
+        //3.阅读数+1
+        $.ajax({
+            url:"/web/source/api/content/read_count/" + sourceId,
+            type:"get",
+            success:function (data) {
+                console.log(data.result);
+            }
+        })
+
     });
 </script>
 

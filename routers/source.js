@@ -218,6 +218,28 @@ router.get("/web/source/api/content/:sourceId",(req,res,next)=>{
     })
 });
 
+/*前端详情页阅读量处理*/
+router.get("/web/source/api/content/read_count/:sourceId",(req,res,next)=>{
+    //查询所有的数据 计算公式
+    Source.findById(req.params.sourceId,"read_count",(err,source)=>{
+        if(err){
+            return next(err);
+        }
+        //1.取出要修改的数据
+        source.read_count += 1;
+        //2.保存
+        source.save((err,result)=>{
+            if(err){
+                return next(err);
+            }
+            res.json({
+                status:200,
+                result:"阅读次数更新成功"
+            });
+        })
+    })
+});
+
 
 /*******************************接口api-end***************************************/
 
