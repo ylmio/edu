@@ -4,47 +4,12 @@ import formidable from "formidable"
 import {basename} from "path"
 import config from "./../src/config"
 const router = express.Router({});
+import SowingController from "./../controller/sowing/SowingController"
 /*******************************接口api***************************************/
 /*
 * 往数据库中插入一条数据
 * */
-router.post("/back/sowing/api/add",(req,res,next)=>{
-    const form = new formidable.IncomingForm();
-    form.uploadDir = config.uploadPath;//上传图片放置的文件夹
-    form.keepExtensions = true;//保持文件的原始扩展名
-    form.parse(req,(err,fields,files)=>{
-        if(err){
-            return next(err);
-        }
-        //1.取出普通字段
-        let body = fields;
-        //2.解析上传的文件路径，取出文件名，保存到数据库中
-        body.image_url = basename(files.image_url.path);
-        //3.操作数据库
-        const sowing = new Sowing({
-            //图片名称
-            image_title : body.image_title,
-            //图片地址
-            image_url : body.image_url,
-            //跳转链接
-            image_link : body.image_link,
-            //上架时间
-            s_time : body.s_time,
-            //下架时间
-            e_time : body.e_time,
-        });
-        sowing.save((err,result)=>{
-            if(err){
-                return next(err);
-            }
-            res.json({
-                status:200,
-                result:"添加轮播图成功"
-            });
-            // return false;
-        })
-    })
-});
+router.post("/back/sowing/api/add",SowingController.insertOneSowing);
 
 /*
 * 获取所有的轮播图列表

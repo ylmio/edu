@@ -82,6 +82,7 @@ app.use((req,res)=>{
 
 
 //4.监听
-app.listen(3040,()=>{
-   console.log("服务器已启动!")
-});
+
+app.listen(config.port,()=>{
+    console.log(`服务器已启动，端口是${config.port}`)
+})
